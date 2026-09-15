@@ -4,151 +4,92 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Impossibles</title>
-<meta name="description" content="Impossibles writes Minecraft server software: game modes, anticheat, and the build and hosting pipelines underneath them.">
+<meta name="description" content="Impossibles builds Minecraft server software. Developer at ONI Network, owner of Mace Zonewars.">
 <meta name="author" content="Impossibles">
-<meta name="theme-color" content="#f3ece0">
+<meta name="theme-color" content="#1a120c">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Impossibles">
-<meta property="og:description" content="Minecraft server software: game modes, anticheat, and the build and hosting pipelines underneath them.">
+<meta property="og:description" content="Developer at ONI Network, owner of Mace Zonewars. Game modes, anticheat, and the machinery underneath.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/skin.png" fetchpriority="high">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 
-<a class="skip" href="#doc">Skip to the document</a>
+<a class="skip" href="#below">Skip to the content</a>
 
-<nav class="rail" aria-label="Document sections">
-  <p class="rail__mark">Impossibles</p>
-  <ul class="rail__dots">
-    <li><a href="#opening" data-dot="opening"><span class="rail__label">Opening</span></a></li>
-    <li><a href="#work" data-dot="work"><span class="rail__label">The work</span></a></li>
-    <li><a href="#stack" data-dot="stack"><span class="rail__label">Stack</span></a></li>
-    <li><a href="#contact" data-dot="contact"><span class="rail__label">Contact</span></a></li>
+<nav class="pill" aria-label="Primary">
+  <a class="pill__mark" href="#top">Impossibles</a>
+  <ul class="pill__links">
+    <li><a href="#work">Work</a></li>
   </ul>
+  <a class="pill__cta" href="#contact">Contact</a>
 </nav>
 
-<main id="doc" class="doc">
+<header class="fold" id="top">
+  <h1 class="fold__name">Impossibles</h1>
 
-  <header class="masthead" id="opening">
-    <h1 class="masthead__name">Impossibles</h1>
-    <p class="masthead__role">Minecraft server engineering. Game modes, anticheat, and the machinery underneath.</p>
-    <p class="masthead__meta">Java &middot; Paper &middot; PacketEvents &middot; Fabric &middot; Linux</p>
-  </header>
+  <div class="stage" id="stage">
+    <!-- No-JS and pre-upgrade state: the front of the head, cropped straight
+         out of the skin sheet. site.js replaces it with the full 3D figure. -->
+    <div class="avatar" role="img" aria-label="The Minecraft skin of Impossibles: dark armour with an orange visor."></div>
+    <p class="stage__hint" hidden>Drag to turn</p>
+  </div>
+</header>
 
-  <article class="prose">
+<hr class="slab">
 
+<main id="below">
+
+  <section class="opening">
+    <p class="statement">Developer at <strong>ONI&nbsp;Network</strong>. I own and run <strong>Mace&nbsp;Zonewars</strong>.</p>
     <p class="lede">I write the plugin that runs the mode, the anticheat that keeps it honest, and the panel that keeps the box online.</p>
 
-    <p>Most of what I build sits underneath a Minecraft PvP server, in the half nobody posts screenshots of. A game mode is easy to demo and hard to keep standing at eighty players. An anticheat is easy to write and hard to trust. The second half of both is the work I care about.</p>
-
-    <p>My defaults come from that. Loops over untrusted data get a ceiling. A failed read returns nothing rather than stale bytes. Anything that depends on a game version lives in a config file, because game versions rot and editing text beats rebuilding.</p>
-
-    <p>Anticheat is the thread through all of it. A detection is only as good as the understanding behind it, so most of the time goes into working out how a cheat actually moves packets around, then finding the one signal that separates it from a player whose frame rate dropped. That is also why my checks ship alert&#8209;only until their false positive rate earns them a ban threshold. A check that bans an honest player costs more than a check that misses.</p>
-
-    <p>Away from the servers I like small tools with no dependencies, and build systems that need no supervision. One of these puts an iPhone app on the App&nbsp;Store from a Windows laptop without anyone signing in to App Store Connect.</p>
-
-    <hr class="rule rule--full">
-
-    <h2 id="work" class="movement">The work</h2>
-
-    <section class="entry">
-      <h3 class="entry__name">Mace Zonewars</h3>
-      <p class="entry__meta">Paper 1.21.11 &middot; Java 21 &middot; no database, no web service, no NMS</p>
-      <p>Eighty players, four teams of twenty, one hill. Each team lives in a tower a hundred blocks above the arena, glides down to fight, and recalls up to regear. A storm closes on the middle and drags the towers inward with it, so the last teams alive finish shoulder to shoulder instead of stalling on opposite edges of the map.</p>
-      <p>Coins are personal and buy gear. Enemy heads are a team currency, banked by anyone, spent on perks all twenty players receive. Arena, towers, loot and spectator camera are generated fresh per match, and setup is one command run from the hub.</p>
-      <p>What made it buildable was a scaled test mode that runs the entire match loop solo in about two minutes. Without that, changing one number needs twenty testers.</p>
-    </section>
-
-    <section class="entry">
-      <h3 class="entry__name">Aegis</h3>
-      <p class="entry__meta">Paper 1.21.11 &middot; PacketEvents &middot; 78 checks &middot; no NMS</p>
-      <p>A behavioural anticheat with player&#8209;facing replays. The weapon coverage targets cheats that actually circulate: a forged movement round trip correlated against a mace smash, the millisecond gap between selecting a spear and the stab packet landing, same&#8209;target bursts arriving faster than hurt immunity permits.</p>
-      <p>Every check reads the same four settings, and a ban threshold of zero means alert&#8209;only. Detections I do not trust yet ship that way deliberately. Automatic punishment needs corroboration from an independent check, so a single noisy signal can never ban on its own, and every violation funnels through one service instead of seventy&#8209;eight scattered call sites.</p>
-      <p>The replay side lets a moderator watch a flagged sequence back rather than trust a number in a log line.</p>
-    </section>
-
-    <section class="entry">
-      <h3 class="entry__name">OniPlugin</h3>
-      <p class="entry__meta">Paper 1.21.11 &middot; Java 21 &middot; LuckPerms, ViaVersion, voice chat</p>
-      <p>The whole server experience in one plugin: duels, free&#8209;for&#8209;all queues, spectating, parties, moderation tooling and a Discord bridge.</p>
-      <p>The menus are built on the 1.21.6 server dialog system with custom bitmap fonts, rather than chest inventories full of dyed wool. That is the difference between an interface that looks designed and one that looks improvised. Arenas load from litematic schematics, so map makers work in a normal editor.</p>
-    </section>
-
-    <section class="entry">
-      <h3 class="entry__name">onihost</h3>
-      <p class="entry__meta">Ubuntu 24.04 &middot; Incus system containers &middot; Caddy, Postgres, Docker</p>
-      <p>One laptop turned into a hosting platform. Twenty&#8209;four gibibytes for the game container, six for the backend, on a thirty&#8209;two gigabyte machine. That leaves about one gigabyte, which is the whole reason these are system containers and not virtual machines: per&#8209;guest kernels do not fit in the gap.</p>
-      <p>The game container is pinned to the performance cores with swap disabled. The backend gets the efficiency cores. Both carry hard ceilings so neither can starve the host.</p>
-      <p>Installation is a USB stick. A Windows installer, built with the compiler already sitting inside Windows, downloads the current Ubuntu release, checks it against the published hashes, writes an autoinstall seed and sets a one&#8209;time boot. Two interruptions, then it finishes alone.</p>
-    </section>
-
-    <section class="entry">
-      <h3 class="entry__name">Emberline</h3>
-      <p class="entry__meta">Swift &middot; XcodeGen &middot; GitHub Actions &middot; App Store Connect API</p>
-      <p>An offline habit tracker for iPhone, and the pipeline that ships it from a Windows laptop.</p>
-      <p>There is no Xcode project in the repository. It is generated from a YAML file on the build machine, which is the trick the whole thing rests on. The release run creates the bundle identifier and the App Store record, sets the privacy labels, tests the streak maths, then builds, signs and uploads.</p>
-    </section>
-
-    <section class="entry">
-      <h3 class="entry__name">Freelook</h3>
-      <p class="entry__meta">Fabric &middot; Minecraft 1.21.11 &middot; AGPL&#8209;3.0 fork</p>
-      <p>Camera work, carried past what the original mod did. Third person placement with clamping, so the camera stops at a wall instead of passing through it, and a perspective lock that turns the view key into two states rather than three.</p>
-      <p>The locked aim persists between activations. That is the detail that makes it usable mid&#8209;fight instead of a novelty.</p>
-    </section>
-
-    <section class="entry">
-      <h3 class="entry__name">discord&#8209;name&#8209;check</h3>
-      <p class="entry__meta">Java 21 &middot; zero third&#8209;party dependencies</p>
-      <p>Finds which short, sayable usernames are still free. Everything it uses ships with the JDK, including a two hundred line JSON reader, so the program can be read end to end before it is run. That is the point of it.</p>
-      <p>It asks one name at a time, slowly, waits out the rate limit, and flushes results per row, so stopping it loses nothing and the next run skips what it already knows. It holds no token and claims nothing.</p>
-    </section>
-
-    <section class="entry">
-      <h3 class="entry__name">Win11Debloat Launcher</h3>
-      <p class="entry__meta">C# &middot; .NET Framework 4.x &middot; builds with no SDK installed</p>
-      <p>A PowerShell script folded into one executable. The script rides along as a managed resource, unpacks to a private temporary file, runs with every argument forwarded, then deletes itself. The exit code comes back out.</p>
-      <p>It compiles with the C# compiler already present on every Windows install, at maximum warning level with warnings as errors, so there is nothing to install before building it.</p>
-    </section>
-
-    <hr class="rule">
-
-    <h2 id="also" class="movement">Also on the bench</h2>
-
-    <ul class="bench">
-      <li>A 1.21.11 client mod carried onto the unobfuscated 26.2 runtime and Java 25, rename map included.</li>
-      <li>A fork of an open source movement anticheat, rebased onto 26.2 and kept building against a moving target.</li>
-      <li>Twenty&#8209;nine armour trim materials added through a datapack and a smithing event, with no client mod required.</li>
-      <li>An alert&#8209;only anticheat shell with the command, threading and violation plumbing solved before the first check was written.</li>
-      <li>A profile switcher that disconnects before it swaps, so no anticheat observes an identity change mid&#8209;session.</li>
-    </ul>
-
-    <hr class="rule rule--full">
-
-    <h2 id="stack" class="movement">Stack</h2>
-
-    <div class="spec-wrap">
-      <table class="spec">
-        <caption class="visually-hidden">Tools and practices, grouped by kind</caption>
-        <tbody>
-          <tr><th scope="row">Languages</th><td>Java, Swift, C#, C++, PowerShell, JavaScript, SQL</td></tr>
-          <tr><th scope="row">Minecraft</th><td>Paper and Bukkit, PacketEvents, Fabric and Mixin, resource packs, datapacks, litematic schematics</td></tr>
-          <tr><th scope="row">Build</th><td>Gradle, Maven, GitHub Actions, XcodeGen, CMake, bare compiler calls when a build system would be overkill</td></tr>
-          <tr><th scope="row">Systems</th><td>Linux, Incus, cloud&#8209;init, systemd, Caddy, Postgres, SQLite</td></tr>
-          <tr><th scope="row">Method</th><td>Packet analysis, reverse engineering, strict warning levels, bounded parsing of untrusted input, config over constants</td></tr>
-        </tbody>
-      </table>
+    <div class="prose">
+      <p>Most of what I build sits underneath a Minecraft PvP server, in the half nobody posts screenshots of. A game mode is easy to demo and hard to keep standing at eighty players. An anticheat is easy to write and hard to trust. The second half of both is the work I care about.</p>
+      <p>My defaults come from that. Loops over untrusted data get a ceiling. A failed read returns nothing rather than stale bytes. Anything that depends on a game version lives in a config file, because game versions rot and editing text beats rebuilding.</p>
+      <p>Anticheat is the thread through all of it. A detection is only as good as the understanding behind it, so most of the time goes into working out how a cheat actually moves packets around, then finding the one signal that separates it from a player whose frame rate dropped. That is also why my checks ship alert&#8209;only until their false positive rate earns them a ban threshold. A check that bans an honest player costs more than a check that misses.</p>
     </div>
+  </section>
 
-    <hr class="rule rule--full">
+  <section class="section" id="work">
+    <h2 class="section__title">The work</h2>
 
-    <h2 id="contact" class="movement">Contact</h2>
+    <div class="cards">
 
-    <p>Open to server work, plugin commissions, and anticheat problems that look unsolvable. Discord is the fastest way to reach me, and the handle is the same one as in game.</p>
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Mace Zonewars</h3>
+          <span class="tag tag--own">Mine</span>
+        </div>
+        <p class="card__meta">Paper 1.21.11 &middot; Java 21 &middot; no database, no web service, no NMS</p>
+        <p>Zone Wars, the Fortnite format, rebuilt in Minecraft. Eighty players, four teams of twenty, one hill.</p>
+        <p>Each team lives in a tower a hundred blocks above the arena, glides down to fight, and recalls up to regear. A storm closes on the middle and drags the towers inward with it, so the last teams alive finish shoulder to shoulder instead of stalling on opposite edges of the map.</p>
+        <p>Coins are personal and buy gear. Enemy heads are a team currency, banked by anyone, spent on perks all twenty players receive. Arena, towers, loot and spectator camera are generated fresh per match, and setup is one command run from the hub.</p>
+        <p>What made it buildable was a scaled test mode that runs the entire match loop solo in about two minutes. Without that, changing one number needs twenty testers.</p>
+      </article>
 
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">ONI Network</h3>
+          <span class="tag">Dev</span>
+        </div>
+        <p class="card__meta">Paper 1.21.11 &middot; Java 21 &middot; LuckPerms, ViaVersion, voice chat</p>
+        <p>The server I develop for, and the plugin that is the whole player experience on it: duels, free&#8209;for&#8209;all queues, spectating, parties, moderation tooling and a Discord bridge.</p>
+        <p>The menus are built on the 1.21.6 server dialog system with custom bitmap fonts, rather than chest inventories full of dyed wool. That is the difference between an interface that looks designed and one that looks improvised.</p>
+        <p>Arenas load from litematic schematics, so map makers work in a normal editor instead of against one.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <h2 class="section__title">Contact</h2>
+    <p class="contact-lede">Open to server work, plugin commissions, and anticheat problems that look unsolvable. Discord is the fastest way to reach me, and the handle is the same one as in game.</p>
     <dl class="reach">
       <div>
         <dt>Discord</dt>
@@ -166,12 +107,16 @@
       </div>
       -->
     </dl>
+  </section>
 
-  </article>
 </main>
 
-<footer class="colophon">
-  <p>Set in Newsreader, IBM Plex Sans and JetBrains Mono. Hand&#8209;written HTML and CSS. No framework, no build step, no dependencies. Served as static files by GitHub Pages. Last set 15 September 2026.</p>
+<footer class="close">
+  <p class="close__line">The half nobody screenshots is the half that has to hold at 3am.</p>
+  <div class="close__meta">
+    <span>Impossibles</span>
+    <span>Hand&#8209;built. No framework, no build step. The figure above is my own skin, drawn in CSS.</span>
+  </div>
 </footer>
 
 <script src="assets/site.js" defer></script>

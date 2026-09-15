@@ -1,6 +1,18 @@
 [
   {
     "date": "2026-09-15",
+    "genre": "atmospheric",
+    "macrostructure": "Marquee Hero",
+    "theme": "custom",
+    "theme_axes": "dark / grotesk-sans / warm",
+    "vibe": "dark arena, orange signal, pixel-built",
+    "nav": "N5 Floating pill",
+    "footer": "Ft5 Statement",
+    "enrichment": "Tier A hand-built CSS 3D figure from the owner's skin texture",
+    "brief": "Impossibles · portfolio rebuilt with motion and a 3D skin; ONI Network and Mace Zonewars only"
+  },
+  {
+    "date": "2026-09-15",
     "genre": "editorial",
     "macrostructure": "Long Document",
     "theme": "Almanac",
@@ -8,6 +20,6 @@
     "nav": "N3 Side-rail",
     "footer": "Ft4 Dense colophon",
     "enrichment": "none",
-    "brief": "Impossibles · personal portfolio for a Minecraft server and systems engineer"
+    "brief": "Impossibles · first portfolio build, superseded the same day"
   }
 ]

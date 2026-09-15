@@ -1,53 +1,69 @@
-/* Hallmark · tokens · theme: Almanac
- * paper band: light (96%) · display style: roman-serif · accent hue: warm (36deg)
- * Portable. Every colour and font in site.css references a name from this file.
+/* Hallmark · tokens · theme: custom
+ * vibe: "dark arena, orange signal, pixel-built"
+ * The palette is not invented. It is sampled from the owner's own Minecraft
+ * skin (assets/skin.png): 376 pixels of #FF7A00 against near-black greys, by
+ * far the most saturated colour present. Accent below is that exact orange
+ * converted to OKLCH. Replace the skin and this palette should be re-sampled.
+ *
+ * axes: paper band dark (13.5%) · display style grotesk-sans (Geist) · accent hue warm (50deg)
+ * Differs from the previous build (Almanac: light / roman-serif / warm) on
+ * paper band and display style.
  */
 
 :root {
-  /* Paper, ink and the neutrals between them. Anchor hue 70-80, so every
-     grey leans warm; a cool grey against a vermilion accent reads wrong and
-     most people cannot say why. */
-  /* Lightness values are solved, not eyeballed: neutral clears 4.5:1 on
-     paper-2 (the darker of the two surfaces it sits on) and rule-strong
-     clears 3:1, because it draws the boundary of two real controls. */
-  --color-paper:        oklch(96.0% 0.011 82);
-  --color-paper-2:      oklch(93.2% 0.014 80);
-  --color-rule:         oklch(78.0% 0.012 78);
-  --color-rule-strong:  oklch(63.2% 0.014 74);
-  --color-neutral:      oklch(51.6% 0.011 70);
-  --color-muted:        oklch(43.0% 0.012 64);
-  --color-ink:          oklch(21.0% 0.014 58);
+  /* Three surfaces, not one. Atmospheric builds elevation with lightness
+     rather than hairlines, so each step up is roughly +4%. */
+  --color-paper:        oklch(13.5% 0.010 50);
+  --color-paper-2:      oklch(17.5% 0.012 50);
+  --color-paper-3:      oklch(22.0% 0.014 50);
 
-  /* One accent, under 3% of any viewport: links, the rail dot, focus rings,
-     the mark band. Never a background fill. */
-  --color-accent:       oklch(48.0% 0.155 36);
-  --color-accent-weak:  oklch(91.0% 0.040 42);
-  --color-focus:        oklch(48.0% 0.155 36);
+  --color-rule:         oklch(30.0% 0.012 50);
+  --color-rule-strong:  oklch(52.0% 0.012 50);
+  --color-neutral:      oklch(68.0% 0.010 50);
+  --color-muted:        oklch(84.0% 0.009 50);
+  --color-ink:          oklch(95.0% 0.006 60);
 
-  /* Newsreader carries the display voice, IBM Plex Sans the prose, and
-     JetBrains Mono tags exactly one role: machine-facing facts (stack
-     strings, table values, the colophon). Three families is the ceiling. */
-  --font-display: "Newsreader", ui-serif, Georgia, "Times New Roman", serif;
-  --font-body:    "IBM Plex Sans", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  /* #FF7A00 from the skin, unchanged. Every ratio below was computed, not
+     eyeballed: ink 17.3:1 on paper, muted 10.6:1 on the highest surface,
+     neutral 6.6:1 on a card, accent 7.7:1, rule-strong 3.4:1 as a control
+     boundary. */
+  --color-accent:       oklch(72.3% 0.190 50.5);
+  --color-accent-deep:  oklch(58.0% 0.170 45.0);
+  --color-focus:        oklch(72.3% 0.190 50.5);
+
+  /* Two fixed blooms are the canvas treatment for this genre. Kept at low
+     alpha so the accent still reads as a signal and not as a wash. */
+  --bloom-a: oklch(72.3% 0.190 50.5 / 0.16);
+  --bloom-b: oklch(58.0% 0.170 45.0 / 0.10);
+  /* A tighter, stronger pool behind the figure. The skin is near-black and so
+     is the canvas, so without this the legs and torso dissolve into the page
+     and only the orange hair reads. */
+  --glow:    oklch(62.0% 0.150 48.0 / 0.30);
+
+  /* Geist carries display and body, which is the atmospheric convention: the
+     canvas does the work, the type stays plain. Mono tags one role only. */
+  --font-display: "Geist", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-body:    "Geist", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
   --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
 
-  /* Five sizes plus one display size. More hierarchy than that comes from
-     weight and colour, not from another step. Ratio is roughly 1.25. */
   --text-sm:      0.875rem;
   --text-base:    1.0625rem;
-  --text-lg:      1.375rem;
-  --text-xl:      1.75rem;
-  --text-display: clamp(2.75rem, 6vw + 1rem, 4.25rem);
+  --text-lg:      1.3125rem;
+  --text-xl:      1.875rem;
+  --text-2xl:     2.5rem;
+  /* Marquee heroes hug the viewport edge; capped at 6rem, which is the
+     atmospheric ceiling. */
+  --text-display: clamp(3.25rem, 13vw, 6rem);
 
   --weight-body:    400;
+  --weight-medium:  500;
   --weight-strong:  600;
   --weight-display: 700;
 
-  --leading-display: 1.06;
-  --leading-body:    1.66;
-  --measure:         68ch;
+  --leading-display: 0.94;
+  --leading-body:    1.62;
+  --measure:         64ch;
 
-  /* 4pt scale, named by role. */
   --space-3xs: 0.125rem;
   --space-2xs: 0.25rem;
   --space-xs:  0.5rem;
@@ -61,18 +77,27 @@
 
   --rule-hair: 1px;
   --rule-bold: 2px;
+  --rule-slab: 4px;
 
-  --radius-none: 0;
-  --radius-sm:   2px;
+  --radius-sm:   4px;
+  --radius-md:   10px;
+  --radius-pill: 999px;
 
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
   --dur-micro: 120ms;
-  --dur-short: 200ms;
+  --dur-short: 220ms;
+  --dur-long:  420ms;
+
+  /* One model pixel, in CSS pixels. Everything in the figure derives from
+     this single number; site.css steps it up at wider viewports and site.js
+     rebuilds the boxes when the step changes. */
+  --skin-unit: 7px;
 
   --z-base:    1;
   --z-raised:  10;
   --z-sticky:  200;
+  --z-nav:     300;
 }

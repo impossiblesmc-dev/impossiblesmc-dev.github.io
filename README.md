@@ -15,26 +15,13 @@ assets/favicon.svg  site icon
 .nojekyll           serve the files as-is, skip Jekyll
 ```
 
-## Before this goes live
+## Deployment
 
-The GitHub account does not exist yet, and `impossibles` is already taken on
-GitHub. Pick a free handle, then do three things:
+Served by GitHub Pages at <https://impossiblesmc-dev.github.io> from the `main` branch of
+`impossiblesmc-dev/impossiblesmc-dev.github.io`. A GitHub user site only publishes from a repository named
+exactly `<handle>.github.io`, which is why this folder carries that name.
 
-1. Rename this folder to `<handle>.github.io`. A GitHub user site only publishes
-   from a repository named exactly that.
-2. Uncomment the GitHub row near the bottom of `index.html` and replace `HANDLE`
-   in both places.
-3. Create the repository, then push.
-
-```bash
-git remote add origin git@github.com:<handle>/<handle>.github.io.git
-```
-
-```bash
-git push -u origin main
-```
-
-The site is then served at `https://<handle>.github.io`.
+Pushing to `main` publishes. The first build takes about a minute.
 
 ## The 3D figure
 

@@ -1,11 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Hex equivalents of --color-paper, --color-ink and --color-accent.
-       A standalone asset cannot read tokens.css, so the values are inlined
-       here and nowhere else; change them with the tokens if the theme moves. -->
-  <rect width="64" height="64" fill="#F3ECE0"/>
-  <rect x="8" y="10" width="48" height="2" fill="#A93B1E"/>
-  <rect x="8" y="52" width="48" height="1" fill="#2A2520"/>
-  <text x="32" y="44" text-anchor="middle"
-        font-family="Newsreader, Georgia, 'Times New Roman', serif"
-        font-size="34" font-weight="700" fill="#2A2520">I</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" shape-rendering="crispEdges">
+  <!-- The site icon is the front of the head, cropped out of the same skin
+       texture the 3D figure is built from. The image is drawn at 8x so one
+       skin pixel is 8 units, then shifted so uv(8,8) lands at the origin. -->
+  <rect width="64" height="64" fill="#1a120c"/>
+  <defs>
+    <clipPath id="c"><rect width="64" height="64"/></clipPath>
+  </defs>
+  <g clip-path="url(#c)">
+    <image href="data:image/png;base64,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"
+           x="-64" y="-64" width="512" height="512"
+           image-rendering="pixelated" style="image-rendering:pixelated"/>
+  </g>
 </svg>

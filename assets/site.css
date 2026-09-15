@@ -1,0 +1,463 @@
+/* Hallmark · genre: editorial · macrostructure: Long Document · theme: Almanac
+ * enrichment: none (typography only) · nav: N3 Side-rail · footer: Ft4 Dense colophon
+ * N3 knobs: side=left, width=14ch, indicator=dot+revealed-label
+ * Ft4 knobs: family=monospace, layout=single block, includes=date + attribution
+ * axes: paper light (96%) · display roman-serif (Newsreader) · accent warm (36deg)
+ * tone: technical · audience: server owners and technical peers · use: reach him on Discord
+ * outlier: --font-mono tags one role only, machine-facing facts (stack
+ *   strings, handles, colophon). Navigation and labels use the body face.
+ * motion: Long Document is a motion-cut archetype. Nothing reveals on scroll.
+ */
+
+/* overflow-x: clip rather than hidden. hidden makes a new scroll container and
+   would kill position: fixed on the rail. */
+html {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--space-xl);
+}
+
+body {
+  overflow-x: clip;
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+/* Focus rings appear instantly. Transitioning them leaves keyboard users with
+   no indicator for the first frames of the transition. */
+:focus-visible {
+  outline: var(--rule-bold) solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+.skip:focus { left: var(--space-md); top: var(--space-md); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- N3 side rail ---------- */
+
+.rail {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 14ch;
+  padding-block: var(--space-xl);
+  padding-inline-start: var(--space-lg);
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-inline-end: var(--rule-hair) solid var(--color-rule);
+  background: var(--color-paper);
+  z-index: var(--z-sticky);
+}
+
+.rail__mark {
+  margin: 0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-lg);
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+}
+
+.rail__dots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.rail__dots a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  text-decoration: none;
+  color: var(--color-neutral);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.rail__dots a::before {
+  content: "";
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border: var(--rule-hair) solid var(--color-rule-strong);
+  background: transparent;
+  transition: background-color var(--dur-micro) var(--ease-out),
+              border-color var(--dur-micro) var(--ease-out);
+}
+
+.rail__label {
+  opacity: 0;
+  transition: opacity var(--dur-micro) var(--ease-out);
+}
+
+.rail__dots a:hover,
+.rail__dots a:focus-visible { color: var(--color-ink); }
+
+.rail__dots a:hover .rail__label,
+.rail__dots a:focus-visible .rail__label { opacity: 1; }
+
+.rail__dots a:active { color: var(--color-accent); }
+
+.rail__dots a[aria-current="true"] { color: var(--color-ink); }
+.rail__dots a[aria-current="true"]::before {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.rail__dots a[aria-current="true"] .rail__label { opacity: 1; }
+
+/* ---------- document column ---------- */
+
+/* Asymmetric on purpose: the column sits left of centre with a wide right
+   margin, rather than being centred in the viewport. */
+.doc {
+  padding-inline: max(var(--space-lg), env(safe-area-inset-left)) var(--space-lg);
+  padding-block: var(--space-2xl) var(--space-3xl);
+  max-width: calc(var(--measure) + var(--space-2xl));
+}
+
+.masthead { margin-bottom: var(--space-2xl); }
+
+.masthead__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-display);
+  line-height: var(--leading-display);
+  letter-spacing: -0.025em;
+  /* A long word at 320px has to be allowed to break inside itself. */
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.masthead__role {
+  margin: var(--space-md) 0 0;
+  max-width: 46ch;
+  font-size: var(--text-lg);
+  line-height: 1.35;
+  color: var(--color-muted);
+}
+
+.masthead__meta {
+  margin: var(--space-lg) 0 0;
+  padding-top: var(--space-sm);
+  border-top: var(--rule-hair) solid var(--color-rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-neutral);
+}
+
+/* ---------- prose ---------- */
+
+.prose { max-width: var(--measure); }
+
+.prose p {
+  margin: 0 0 var(--space-lg);
+  hanging-punctuation: first last;
+}
+
+.lede {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: 1.45;
+  color: var(--color-ink);
+  margin-bottom: var(--space-xl) !important;
+}
+
+/* Section heads emerge from the flow rather than sitting in a labelled band.
+   No eyebrow, no number, no left-margin tag: that two-column head is the most
+   reliable templated-editorial tell. */
+.movement {
+  margin: var(--space-3xl) 0 var(--space-lg);
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-xl);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.entry { margin-bottom: var(--space-2xl); }
+
+.entry__name {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-lg);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.entry__meta {
+  margin: 0 0 var(--space-md) !important;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-neutral);
+}
+
+.bench {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bench li {
+  position: relative;
+  padding-inline-start: var(--space-lg);
+  margin-bottom: var(--space-md);
+  color: var(--color-muted);
+}
+
+.bench li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.82em;
+  width: var(--space-sm);
+  height: var(--rule-hair);
+  background: var(--color-rule-strong);
+}
+
+/* Negative space is the divider in this macrostructure; the rules are the
+   exception, used only between movements. */
+.rule {
+  border: 0;
+  border-top: var(--rule-hair) solid var(--color-rule);
+  margin: var(--space-2xl) 0 0;
+}
+
+/* One deliberate grid-break: the full rule escapes the text measure. */
+.rule--full { border-top-color: var(--color-rule-strong); }
+
+/* ---------- F3 spec sheet ---------- */
+
+/* The table is the second grid-break: it runs wider than the prose measure. */
+.spec-wrap { overflow-x: auto; }
+
+.spec {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.spec th,
+.spec td {
+  text-align: start;
+  vertical-align: baseline;
+  padding: var(--space-md) var(--space-md) var(--space-md) 0;
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.spec tr:last-child th,
+.spec tr:last-child td { border-bottom: 0; }
+
+.spec th {
+  width: 14ch;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.spec td { color: var(--color-muted); }
+
+/* ---------- contact ---------- */
+
+.reach {
+  margin: var(--space-xl) 0 0;
+  display: grid;
+  gap: 0;
+}
+
+.reach > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xs);
+  align-items: baseline;
+  padding-block: var(--space-md);
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.reach > div:last-child { border-bottom: 0; }
+
+.reach dt {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  color: var(--color-neutral);
+}
+
+.reach dd {
+  margin: 0;
+  font-family: var(--font-mono);
+}
+
+.reach__val { color: var(--color-ink); }
+
+/* C3 typographic link: a word, a rule beneath it, nothing else. */
+.link,
+.prose a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: var(--rule-hair) solid var(--color-accent-weak);
+  transition: border-color var(--dur-micro) var(--ease-out);
+}
+
+.link:hover,
+.prose a:hover { border-bottom-color: var(--color-accent); }
+
+.link:active,
+.prose a:active { color: var(--color-ink); border-bottom-color: var(--color-ink); }
+
+/* The Discord handle stays selectable, so the fallback when the clipboard is
+   unavailable is a real one rather than a dead end. */
+.copy {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: var(--rule-hair) dashed var(--color-rule-strong);
+  border-radius: var(--radius-none);
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: inherit;
+  cursor: pointer;
+  user-select: text;
+  -webkit-user-select: text;
+  white-space: nowrap;
+  transition: border-color var(--dur-micro) var(--ease-out),
+              color var(--dur-micro) var(--ease-out),
+              transform 100ms var(--ease-out);
+}
+
+.copy:hover { color: var(--color-accent); border-bottom-color: var(--color-accent); }
+.copy:active { transform: translateY(1px); }
+.copy[data-state="done"] { color: var(--color-accent); border-bottom-color: var(--color-accent); }
+
+.copy:disabled {
+  color: var(--color-neutral);
+  border-bottom-color: var(--color-rule);
+  cursor: not-allowed;
+}
+
+.copy__hint {
+  font-size: var(--text-sm);
+  color: var(--color-neutral);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---------- Ft4 colophon ---------- */
+
+.colophon {
+  border-top: var(--rule-hair) solid var(--color-rule);
+  padding-inline: max(var(--space-lg), env(safe-area-inset-left)) var(--space-lg);
+  padding-block: var(--space-lg) max(var(--space-lg), env(safe-area-inset-bottom));
+  background: var(--color-paper-2);
+}
+
+.colophon p {
+  margin: 0;
+  max-width: 72ch;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  color: var(--color-neutral);
+}
+
+/* ---------- wider viewports ---------- */
+
+/* 24rem is where the label and the handle stop competing for the row. */
+@media (min-width: 24rem) {
+  .reach > div {
+    grid-template-columns: 14ch minmax(0, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+@media (min-width: 60rem) {
+  .rail { display: flex; }
+
+  /* Two deliberate grid-breaks: the full rule and the spec sheet escape the
+     prose measure. Only above this width, where the column has the room. */
+  .rule--full,
+  .spec-wrap { width: calc(100% + var(--space-2xl)); }
+
+  .doc {
+    padding-inline-start: calc(14ch + var(--space-3xl));
+    padding-block: var(--space-3xl) var(--space-4xl);
+    max-width: calc(14ch + var(--space-3xl) + var(--measure) + var(--space-2xl));
+  }
+
+  .colophon {
+    padding-inline-start: calc(14ch + var(--space-3xl));
+    padding-block: var(--space-xl);
+  }
+}
+
+@media (min-width: 90rem) {
+  .doc { padding-block-start: var(--space-4xl); }
+}
+
+/* Coarse pointers get real targets; the rail is desktop-only so the dots
+   never need to be tapped. */
+@media (pointer: coarse) {
+  .copy { min-height: 44px; align-items: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 150ms !important;
+  }
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Hex equivalents of --color-paper, --color-ink and --color-accent.
+       A standalone asset cannot read tokens.css, so the values are inlined
+       here and nowhere else; change them with the tokens if the theme moves. -->
+  <rect width="64" height="64" fill="#F3ECE0"/>
+  <rect x="8" y="10" width="48" height="2" fill="#A93B1E"/>
+  <rect x="8" y="52" width="48" height="1" fill="#2A2520"/>
+  <text x="32" y="44" text-anchor="middle"
+        font-family="Newsreader, Georgia, 'Times New Roman', serif"
+        font-size="34" font-weight="700" fill="#2A2520">I</text>
+</svg>
